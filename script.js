@@ -1,4 +1,3 @@
-// Полный список всех 13 привилегий с уменьшенными ценами за Рубли (RCON = 2500 ₽)
 const products = [
     { id: "01", name: "WITHER", price: 20, desc: "Начальная донат-привилегия" },
     { id: "02", name: "OVERLORD", price: 50, desc: "Продвинутая привилегия" },
@@ -12,69 +11,54 @@ const products = [
     { id: "10", name: "ФАНТОМ", price: 1750, desc: "Призрачный ранг" },
     { id: "11", name: "LITE OP", price: 2100, desc: "Облегченная операторка" },
     { id: "12", name: "RCON", price: 2500, desc: "Консольный доступ" },
-    { id: "13", name: "ADMIN (ZENITH)", price: 2990, desc: "Высшая привилегия из группы ЗЕНИТЫ" }
+    { id: "13", name: "ADMIN (ZENITH)", price: 2990, desc: "Высшая группа ЗЕНИТЫ" }
 ];
 
-// Инициализация баланса в рублях (начинается с 0)
 let balance = parseInt(localStorage.getItem('rub_balance')) || 0;
+let currentSelectedProduct = null;
 
-// Элементы интерфейса страницы
 const el = document.getElementById('balance');
 const rubProductsContainer = document.getElementById('rub-products');
 const toast = document.getElementById('toast');
 
 function fmt(n) { return n.toLocaleString('ru-RU'); }
 
-// Обновление отображения баланса на сайте
 function updateBalancesDisplay() {
     if (el) el.textContent = fmt(balance);
     localStorage.setItem('rub_balance', balance);
 }
 
-// Автоматическая генерация карточек всех привилегий в блок на сайте
 function renderProducts() {
-    const container = rubProductsContainer || 
-                      document.getElementById('zenith-products') || 
-                      document.querySelector('.products-grid');
-                      
-    if (!container) return;
-    container.innerHTML = '';
+    if (!rubProductsContainer) return;
+    rubProductsContainer.innerHTML = '';
 
     products.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <div class="product-id">${product.id}</div>
-            <h3>${product.name}</h3>
+            <div class="card-glow"></div>
+            <div class="product-id">#${product.id}</div>
+            <h3 class="product-title">${product.name}</h3>
             <p class="product-desc">${product.desc}</p>
-            <div class="product-price">${fmt(product.price)} ₽</div>
-            <button onclick="buy('${product.name}', ${product.price})">Купить через СБП</button>
+            <div class="price-tag">${fmt(product.price)} <span>₽</span></div>
+            <button class="buy-button" onclick="openDepositModal('${product.id}')">Купить</button>
         `;
-        container.appendChild(card);
+        rubProductsContainer.appendChild(card);
     });
 }
 
-// Логика кнопки «Купить»
-window.buy = function(name, price) {
-    if (balance >= price) {
-        balance -= price;
-        updateBalancesDisplay();
-        show('Покупка ' + name + ' успешно оформлена!');
-    } else {
-        show('Недостаточно средств. Открываем оплату по СБП...');
-        setTimeout(() => {
-            openDepositModal(price);
-        }, 800);
-    }
-};
-
-// Управление модальным окном пополнения / прямой покупки через СБП
-window.openDepositModal = function(autoAmount = "") {
-    const modal = document.getElementById('deposit-modal');
-    const amountInput = document.getElementById('deposit-amount');
+// Открытие EasyDonate-модалки с передачей параметров товара
+window.openDepositModal = function(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
     
+    currentSelectedProduct = product;
+
+    document.getElementById('selected-product-name').textContent = product.name;
+    document.getElementById('modal-total-price').textContent = fmt(product.price);
+    
+    const modal = document.getElementById('deposit-modal');
     if (modal) modal.style.display = 'flex';
-    if (amountInput && autoAmount) amountInput.value = autoAmount;
 };
 
 window.closeDepositModal = function() {
@@ -82,22 +66,49 @@ window.closeDepositModal = function() {
     if (modal) modal.style.display = 'none';
 };
 
-// Функция вывода всплывающих уведомлений (toast)
+// Обработка клика по кнопке "Оплатить" в стиле платёжки
+window.handlePaymentSubmit = function(event) {
+    event.preventDefault();
+    const nickname = document.getElementById('player-nickname').value.trim();
+    const method = document.querySelector('input[name="pay_method"]:checked').value;
+
+    if (!nickname) {
+        show('Пожалуйста, введите ваш никнейм!');
+        return;
+    }
+
+    if (method === 'sbp') {
+        show(`Перенаправляем к оплате по СБП для игрока ${nickname}...`);
+    } else {
+        show(`Открываем шлюз банковских карт для игрока ${nickname}...`);
+    }
+
+    // Имитация успешной транзакции (через 2 секунды)
+    setTimeout(() => {
+        closeDepositModal();
+        show(`Привилегия ${currentSelectedProduct.name} успешно отправлена на ник ${nickname}!`);
+    }, 2000);
+};
+
 function show(text) {
     if (!toast) return;
     toast.textContent = text;
     toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 2600);
+    setTimeout(() => toast.style.display = 'none', 3000);
 }
 
-// Закрытие окна пополнения при клике по фону
+// Переключение визуального стиля карточек методов оплаты при клике
+document.addEventListener('change', (e) => {
+    if (e.target.name === 'pay_method') {
+        document.querySelectorAll('.method-card').forEach(card => card.classList.remove('active'));
+        e.target.closest('.method-card').classList.add('active');
+    }
+});
+
 window.onclick = function(event) {
     const modal = document.getElementById('deposit-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
+    if (event.target === modal) modal.style.display = 'none';
 };
 
-// Запуск функций при загрузке страницы сайта
 updateBalancesDisplay();
 renderProducts();
