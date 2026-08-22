@@ -1,3 +1,40 @@
+    <header>
+        <div class="logo">ZENSKY STORE</div>
+        <div class="balances">
+            <div class="balance-item">Валюта: <span id="zenith-balance">0</span> ZENITH</div>
+            <div class="balance-item rub-balance">
+                Баланс: <span id="balance">0</span> ₽
+                <!-- Кнопка плюс для открытия окна пополнения -->
+                <button class="deposit-btn" onclick="openDepositModal()">+</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- МОДАЛЬНОЕ ОКНО ПОПОЛНЕНИЯ БАЛАНСА -->
+    <div id="deposit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDepositModal()">&times;</span>
+            <h2>Пополнение баланса через СБП</h2>
+            <p>Введите ваш никнейм и сумму пополнения:</p>
+            
+            <!-- Форма, которая будет перенаправлять на платежную систему -->
+            <form id="payment-form" action="https://aaio.io" method="GET" target="_blank">
+                <!-- Скрытые поля для платежки (пример для AAIO, у других похожие названия) -->
+                <input type="hidden" name="merchant_id" value="ID_ВАШЕГО_МЕРЧАНТА">
+                <input type="hidden" name="currency" value="RUB">
+                <input type="hidden" name="method" value="sbp"> <!-- Принудительный выбор СБП -->
+                
+                <div class="input-group">
+                    <input type="text" id="player-nickname" name="us_nickname" placeholder="Ваш ник в Minecraft" required>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="deposit-amount" name="amount" placeholder="Сумма (₽)" min="10" required>
+                </div>
+                
+                <button type="submit" class="pay-submit-btn">Оплатить через СБП</button>
+            </form>
+        </div>
+    </div>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
