@@ -1,76 +1,191 @@
-/* Кнопка пополнения [+] в шапке */
-.deposit-btn {
-    background: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 2px 8px;
-    margin-left: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-.deposit-btn:hover {
-    background: #27ae60;
-    transform: scale(1.1);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Стили модального окна */
-.modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-.modal-content {
-    background: #1e1e1e;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
+body {
+    background-color: #0b0813;
+    color: #ffffff;
+    overflow-x: hidden;
     position: relative;
-    color: #fff;
-    border: 1px solid #333;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    min-height: 100vh;
 }
-.close-modal {
+
+/* Эффект фиолетового свечения на бэкграунде */
+.glow-bg {
     position: absolute;
-    top: 15px; right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-    color: #aaa;
+    top: -10%; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.25) 0%, rgba(0,0,0,0) 70%);
+    z-index: -1;
+    pointer-events: none;
 }
-.close-modal:hover { color: #fff; }
-.input-group { margin: 15px 0; }
-.input-group input {
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Навигация в стиле современных серверов */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(15, 11, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.logo span { color: #a855f7; }
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.nav-links a.active, .nav-links a:hover { color: #fff; text-shadow: 0 0 10px #a855f7; }
+
+.user-balance {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 700;
+}
+
+/* Главный заголовок */
+.hero-section {
+    text-align: center;
+    padding: 60px 0;
+}
+.hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
+.hero-title span { color: #a855f7; text-shadow: 0 0 25px rgba(168, 85, 247, 0.6); }
+.hero-subtitle { color: #888; font-size: 1.1rem; }
+
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Сетка карточек товаров */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    padding-bottom: 60px;
+}
+
+/* Карточки в стиле ReallyWorld с фиолетовым неоном */
+.product-card {
+    background: #130f22;
+    border: 1px solid rgba(138, 43, 226, 0.15);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(168, 85, 247, 0.8);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+}
+
+.product-id { font-size: 0.85rem; color: #6366f1; font-weight: 700; margin-bottom: 10px; }
+.product-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.product-desc { color: #7c7a8a; font-size: 0.9rem; min-height: 40px; margin-bottom: 20px; }
+
+.price-tag { font-size: 2rem; font-weight: 800; color: #a855f7; margin-bottom: 20px; }
+.price-tag span { font-size: 1.2rem; }
+
+.buy-button {
     width: 100%;
     padding: 12px;
-    background: #2b2b2b;
-    border: 1px solid #444;
-    border-radius: 6px;
-    color: white;
-    box-sizing: border-box;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none; border-radius: 10px;
+    color: white; font-weight: 700; cursor: pointer;
+    transition: 0.3s;
 }
-.input-group input:focus { border-color: #2ecc71; outline: none; }
+.buy-button:hover { filter: brightness(1.2); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
 
-/* Кнопка оплаты */
-.pay-submit-btn {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #ff5e00, #ff0055);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
-    transition: 0.2s;
+/* ДИЗАЙН ОКНА ОПЛАТЫ EASYDONATE */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 3, 10, 0.85);
+    display: flex; justify-content: center; align-items: center; z-index: 1000;
 }
-.pay-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 0, 85, 0.5);
+.modal-content {
+    background: #110c1f;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 20px;
+    width: 100%; max-width: 460px;
+    padding: 35px; position: relative;
 }
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #555; }
+.close-modal:hover { color: #fff; }
+
+.modal-header h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 5px; }
+.highlight { color: #a855f7; font-weight: 700; }
+
+.input-block { margin-top: 20px; }
+.input-block label { display: block; font-size: 0.85rem; color: #888; margin-bottom: 8px; font-weight: 600; }
+.input-block input {
+    width: 100%; padding: 14px; background: #19142b;
+    border: 1px solid #2d264d; border-radius: 10px; color: #fff; font-size: 1rem;
+}
+.input-block input:focus { border-color: #a855f7; outline: none; }
+
+.payment-methods-label { margin: 25px 0 10px; font-size: 0.9rem; color: #888; font-weight: 600; }
+.payment-methods-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+/* Карточки методов в стиле EasyDonate */
+.method-card {
+    background: #19142b; border: 2px solid #2d264d; border-radius: 12px;
+    padding: 15px; display: flex; flex-direction: column; align-items: center;
+    cursor: pointer; position: relative; text-align: center; transition: 0.2s;
+}
+.method-card input { position: absolute; opacity: 0; }
+.method-card.active { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
+
+.sbp-icon {
+    background: linear-gradient(135deg, #1b004a, #d10056);
+    padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 800;
+}
+.card-icon { font-size: 1.4rem; }
+.method-title { font-size: 0.8rem; font-weight: 600; margin-top: 10px; color: #ccc; }
+
+.easydonate-submit-btn {
+    width: 100%; padding: 16px; margin-top: 30px;
+    background: #a855f7; border: none; border-radius: 12px;
+    color: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4); transition: 0.3s;
+}
+.easydonate-submit-btn:hover { background: #b566ff; transform: translateY(-2px); }
+
+/* Тосты */
+.toast-notification {
+    position: fixed; bottom: 30px; right: 30px;
+    background: #130f22; border-left: 4px solid #a855f7;
+    color: white; padding: 18px 25px; border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10000;
+}
+
+/* Анимации */
+.animate-fade { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
