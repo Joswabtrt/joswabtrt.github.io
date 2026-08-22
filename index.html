@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZENSKY — Магазин честного доната</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Подключаем шрифты для стильного вида -->
     <link href="https://googleapis.com" rel="stylesheet">
 </head>
 <body>
-    <!-- Фоновое неоновое свечение -->
-    <div class="glow-bg"></div>
-
     <header class="navbar">
         <div class="logo">ZENSKY<span>.RU</span></div>
         <div class="nav-links">
@@ -20,66 +16,57 @@
             <a href="#">Контакты</a>
         </div>
         <div class="user-balance">
-            <span class="wallet-icon">₽</span> Баланс: <span id="balance">0</span> руб.
+            Баланс: <span id="balance">0</span> руб.
         </div>
     </header>
 
     <main class="container">
-        <!-- Главный баннер -->
-        <section class="hero-section">
-            <h1 class="hero-title">ДОНАТ МАГАЗИН <span>ZENSKY</span></h1>
-            <p class="hero-subtitle">Выбирай лучшие привилегии по самым доступным ценам на лучшем сервере!</p>
-        </section>
+        <!-- Кнопки выбора игровых режимов как на ReallyWorld -->
+        <div class="rw-modes-nav">
+            <div class="rw-modes-left">
+                <h2>Магазин привилегий</h2>
+            </div>
+            <div class="rw-modes-right">
+                <button class="mode-btn active">ГРИФ. ВЫЖИВАНИЕ</button>
+                <button class="mode-btn">АНАРХИЯ</button>
+                <button class="mode-btn">СТО</button>
+            </div>
+        </div>
 
-        <!-- Сетка товаров (Привилегий) -->
         <section class="shop-section">
-            <h2 class="section-title">Доступные привилегии</h2>
+            <h3 class="section-subtitle">Доступные привилегии</h3>
             <div class="products-grid" id="rub-products">
-                <!-- Карточки генерируются скриптом автоматически -->
+                <!-- Карточки автоматически генерируются через script.js -->
             </div>
         </section>
     </main>
 
-    <!-- МОДАЛЬНОЕ ОКНО ОПЛАТЫ В СТИЛЕ EASYDONATE -->
+    <!-- МОДАЛЬНОЕ ОКНО ОПЛАТЫ EASYDONATE -->
     <div id="deposit-modal" class="modal" style="display: none;">
-        <div class="modal-content animate-fade">
+        <div class="modal-content">
             <span class="close-modal" onclick="closeDepositModal()">&times;</span>
             <div class="modal-header">
                 <h3>Оформление заказа</h3>
-                <p>Вы приобретаете: <span id="selected-product-name" class="highlight">Товар</span></p>
+                <p>Вы приобретаете: <span id="selected-product-name" style="color:#b55fe6; font-weight:bold;">Товар</span></p>
             </div>
             
-            <form id="easydonate-form" onsubmit="handlePaymentSubmit(event)">
-                <!-- Ввод Никнейма -->
+            <form onsubmit="handlePaymentSubmit(event)">
                 <div class="input-block">
-                    <label for="player-nickname">Ваш никнейм на сервере:</label>
+                    <label>Ваш никнейм на сервере *</label>
                     <input type="text" id="player-nickname" placeholder="Введите ник" required>
                 </div>
 
-                <!-- Промокод -->
                 <div class="input-block">
-                    <label for="promo-code">Промокод (если есть):</label>
-                    <input type="text" id="promo-code" placeholder="Введите купон">
+                    <label>Промокод / Купон (если есть)</label>
+                    <input type="text" id="promo-code" placeholder="Введите промокод">
                 </div>
 
-                <!-- Выбор метода оплаты (в стиле EasyDonate) -->
-                <div class="payment-methods-label">Выберите способ оплаты:</div>
-                <div class="payment-methods-grid">
-                    <label class="method-card active">
-                        <input type="radio" name="pay_method" value="sbp" checked>
-                        <div class="method-icon sbp-icon">
-                            <span class="sbp-badge">СБП</span>
-                        </div>
-                        <div class="method-title">Система Быстрых Платежей</div>
-                    </label>
-                    <label class="method-card">
-                        <input type="radio" name="pay_method" value="card">
-                        <div class="method-icon card-icon">💳</div>
-                        <div class="method-title">Банковская карта</div>
-                    </label>
+                <div class="payment-methods-label">Способ оплаты:</div>
+                <div class="method-card active">
+                    <span class="sbp-badge">СБП</span>
+                    <div class="method-title">Система Быстрых Платежей</div>
                 </div>
 
-                <!-- Кнопка итоговой стоимости -->
                 <button type="submit" class="easydonate-submit-btn">
                     Оплатить <span id="modal-total-price">0</span> ₽
                 </button>
@@ -87,7 +74,6 @@
         </div>
     </div>
 
-    <!-- Всплывающие уведомления (Toast) -->
     <div id="toast" class="toast-notification" style="display: none;"></div>
 
     <script src="script.js"></script>
