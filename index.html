@@ -3,44 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZENITH STORE — Донат магазин</title>
+    <title>ZENSKY — Донат магазин</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <div class="logo">ZENITH STORE</div>
+        <!-- Изменено название проекта на ZENSKY -->
+        <div class="logo">ZENSKY STORE</div>
         <div class="balances">
-            <div class="balance-item">Баланс: <span id="zenith-balance">10 000</span> ZENITH</div>
-            <div class="balance-item rub-balance">Баланс: <span id="rub-balance">500</span> ₽</div>
+            <div class="balance-item">Валюта: <span id="zenith-balance">0</span> ZENITH</div>
+            <div class="balance-item rub-balance">Баланс: <span id="balance">0</span> ₽</div>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <h1>MINECRAFT DONATE STORE</h1>
-            <p>Покупайте привилегии за рубли или обменивайте внутриигровую валюту ZENITH!</p>
+            <h1>ZENSKY DONATE STORE</h1>
+            <p>Выберите желаемую привилегию. Покупка осуществляется за Рубли!</p>
         </section>
 
-        <!-- СЕКЦИЯ 1: ТОВАРЫ ЗА РУБЛИ -->
+        <!-- Один общий контейнер для автоматического рендеринга товаров -->
         <section class="shop-section">
-            <h2>Привилегии за Рубли (₽)</h2>
+            <h2>Доступные привилегии</h2>
             <div class="products-grid" id="rub-products">
-                <!-- Сюда скрипт добавит товары за рубли -->
-            </div>
-        </section>
-
-        <!-- СЕКЦИЯ 2: ТОВАРЫ ЗА ZENITH -->
-        <section class="shop-section">
-            <h2>Привилегии за ZENITH</h2>
-            <div class="products-grid" id="zenith-products">
-                <!-- Сюда скрипт добавит товары за ZENITH -->
+                <!-- Сюда скрипт автоматически добавит все 13 привилегий -->
             </div>
         </section>
     </main>
 
     <footer>
-        <p>ZENITH STORE &copy; 2026</p>
+        <p>ZENSKY STORE &copy; 2026</p>
     </footer>
+
+    <!-- Элемент для всплывающих уведомлений (toast) -->
+    <div id="toast" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #333; color: #fff; padding: 15px 20px; border-radius: 5px; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.2);"></div>
 
     <script src="script.js"></script>
 </body>
